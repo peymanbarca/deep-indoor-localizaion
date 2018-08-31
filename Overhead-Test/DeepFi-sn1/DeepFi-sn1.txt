@@ -1,0 +1,17 @@
+Senario 1 --> Deep Fi
+total num of SPs are 19
+
+at each test we sample ... num of all total SPs.
+at each test from ... SPs available, we choose last one for test and other for training
+in Deep Fi we must train a deep net for each training SP
+
+Num of Sp       sampled locs id                     time elapsed                            memory G                  mem %
+6               [3 15 19 2 13 1]                    mean= 3.46  sum= 17.28                  3.01                           73.02
+
+10          [8 7 19 1 12 9 10 3 4 5]                 mean=  4.14    sum=37.28                    3.00                     72.81
+
+13          [14 5 9 12 19 13 2 3 16 1 8 17 4]        mean= 3.6    sum=  43.22                     3.01                       73.15
+
+16      [4 16 1 12 3 6 9 13 2 11 17 7 8 18 14 15]    mean=   4.18    sum=  62.75                3.01                     72.95
+
+19                                                   mean=  4.81        sum= 86.58               3.01                  72.93

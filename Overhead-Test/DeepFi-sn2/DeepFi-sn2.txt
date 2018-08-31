@@ -1,0 +1,12 @@
+Senario 2 --> Deep Fi
+total num of SPs are 17
+
+Num of Sp       sampled locs id                     time elapsed                            memory G                  mem %
+6               [12 13  4 11  8  9]                    mean= 5.98  sum=29.91                  3.07                           74.38
+
+10         [16  5 10  4 17  8 15  6  2 11]                 mean=  5.85    sum=52.61             3.08                     74.7
+
+14       [ 4  5  9  2 11  8 13 10 12 17  3 15  1 14]        mean= 5.87    sum=  76.31            3.09                       74.8
+
+17                                                          mean= 6.03    sum=  96.5            3.09                       74.98
+

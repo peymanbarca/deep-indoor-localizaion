@@ -1,0 +1,17 @@
+Senario 1 --> Deep Pos
+total num of SPs are 19
+
+at each test we sample ... num of all total SPs.
+at each test from ... SPs available, we choose last one for test and other for training
+in Deep Pos we model all the environment (using all training SPs) with only one deep net !!!
+
+Num of Sp       sampled locs id                     time elapsed                            memory G                  mem %
+6               [ 4  2 17  6  9 16]                    mean= 6.06  sum= 6.06                  3.09                           74.8
+
+10          [8 3 15 5 13 12 17 16 4 10]             mean=  6.92    sum=6.92                    3.07                       74.4
+
+13          [14 5 9 12 19 13 2 3 16 1 8 17 4]        mean= 9.13    sum=  9.13                     3.09                       74.8
+
+16       [13 15 11 5 9 14 6 12 8 1 3 4 17 7 16 2]    mean=   9.45    sum=  9.45                3.11                     76.95
+
+19                                                   mean=  11.09        sum= 11.09               3.14                  77.93
