@@ -2,8 +2,7 @@ from __future__ import division, print_function, absolute_import
 
 import tensorflow as tf
 import numpy as np
-# import matplotlib.pyplot as plt
-#from read_from_db import read_csi_from_db
+
 from get_v3 import get_csi
 import os
 import shutil
@@ -11,40 +10,41 @@ import shutil
 if os.path.isdir(os.getcwd()+'/Models'):
 
         shutil.rmtree(os.getcwd()+'/Models')
-        #print("1")
+
 os.mkdir(os.getcwd()+'/Models')
 
-for k in range(1,20):
-    csi = get_csi(k) #360*1*90
-    csi = np.squeeze(csi) #360*90   20 packet from each of 18 Location -- 
+random_points=list(np.array([1,2, 4,6, 7,8, 10,12,13, 14,16,17, 19])-1)
+for k in range(1,14):
+    csi = get_csi(k,random_points)
+    csi = np.squeeze(csi)
+    print(csi.shape)
+
+
     point1=csi[0:20]
     point2=csi[20:40]
     point3=csi[40:60]
     point4=csi[60:80]
     point5=csi[80:100]
-    point6=csi[100:120]
-    point7=csi[120:140]
-    point8=csi[140:160]
-    point9=csi[160:180]
-    point10=csi[180:200]
-    point11=csi[200:220]
-    point12=csi[220:240]
-    point13=csi[240:260]
-    point14=csi[260:280]
-    point15=csi[280:300]
-    point16=csi[300:320]
-    point17=csi[320:340]
-    point18=csi[340:360]
+    point6 = csi[100:120]
+    point7 = csi[120:140]
+    point8 = csi[140:160]
+    point9 = csi[160:180]
+    point10 = csi[180:200]
+    point11 = csi[200:220]
+    point12 = csi[220:240]
+    point13 = csi[240:260]
 
 
-    points=[point1,point2,point3,point4,point5,point6,point7,point8,point9,point10,point11,point12,point13,point14,point15,point16,point17,point18]
+
+
+    points=[point1,point2,point3,point4,point5,point6,point7,point8,point9,point10]
     total=points
 
     # Parameters
     learning_rate = 0.01
     training_epochs = 1000
     display_step = 50
-    n_labels = 18
+    n_labels = 12
     #
 
     # Network Parameters
@@ -151,26 +151,22 @@ for k in range(1,20):
             # Loop over all batches
             x=csi
             rows=x.shape[0]
-            labels=np.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]*rows)
+            labels=np.array([0,0,0,0,0,0,0,0,0,0,0,0]*rows)
             labels=labels.reshape(rows,n_labels)
             labels[0:20,0]=1  #label for point 1
             labels[20:40,1]=1  #label for point 2
             labels[40:60,2]=1  #label for point 3
             labels[60:80,3]=1  #label for point 4
             labels[80:100,4]=1  #label for point 5
-            labels[100:120,5]=1  #label for point 6
-            labels[120:140,6]=1  #label for point 7
-            labels[140:160,7]=1  #label for point 8
-            labels[160:180,8]=1  #label for point 9
-            labels[180:200,9]=1  #label for point 10
-            labels[200:220,10]=1  #label for point 11
-            labels[220:240,11]=1  #label for point 12
-            labels[240:260,12]=1  #label for point 13
-            labels[260:280,13]=1  #label for point 14
-            labels[280:300,14]=1  #label for point 15
-            labels[300:320,15]=1  #label for point 16
-            labels[320:340,16]=1  #label for point 17
-            labels[340:360,17]=1  #label for point 18
+            labels[100:120, 5] = 1
+            labels[120:140, 6] = 1
+            labels[140:160, 7] = 1
+            labels[160:180, 8] = 1
+            labels[180:200, 9] = 1
+            labels[200:220, 10] = 1
+            labels[220:240, 11] = 1
+
+
 
             label=labels
             # Run optimization op (backprop) and cost op (to get loss value)

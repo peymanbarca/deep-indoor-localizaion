@@ -7,10 +7,12 @@ from Detemine_error import compute_error_metric
 import time
 
 
-
-test_loc=1
-csi=get_test_csi(test_loc) #10*1*90
-csi=np.squeeze(csi) #10*90   10 packet from each of test points
+random_points=list(np.array([2, 5, 6,8, 10,12, 14,16,17, 19])-1)
+param=10
+test_loc=random_points[param-1]
+csi=get_test_csi(test_loc)
+csi=np.squeeze(csi)
+print(csi.shape)
 
 
 
@@ -19,12 +21,12 @@ n_hidden_2 = 20 # 2nd layer num features
 n_hidden_3=10
 n_hidden_4=5
 n_input = 90
-n_labels = 18
+n_labels = 9
 
 X = tf.placeholder("float", [None, n_input])
-# errors=[]
-locs = list(np.linspace(1 ,19, 19))
-# locs.astype(int)
+
+locs = list(np.linspace(1 ,6, 6))
+
 
 new_input = csi[1:6, :]  # for example give some packets input
 #print(new_input.shape)
@@ -36,9 +38,9 @@ times=[]
 # Applying encode and decode over test set
 for i in range(1):
     with tf.Session() as sess:
-        saver1 = tf.train.import_meta_graph('Models/Test' + str(test_loc) + '/trained_variables' + '.ckpt.meta')
-        saver1.restore(sess, tf.train.latest_checkpoint('Models/Test' + str(test_loc) + '/'))
-        for j in range(18):              #ye session darim & label haye mokhtakef ra dar an micharkhanim
+        saver1 = tf.train.import_meta_graph('Models/Test' + str(param) + '/trained_variables' + '.ckpt.meta')
+        saver1.restore(sess, tf.train.latest_checkpoint('Models/Test' + str(param) + '/'))
+        for j in range(n_labels):              #ye session darim & label haye mokhtakef ra dar an micharkhanim
             X = tf.placeholder("float", [None, n_input])
             y = tf.placeholder("float", [None, n_labels])
             #sess.run(tf.global_variables_initializer())
@@ -60,11 +62,7 @@ for i in range(1):
             b6 = sess.run(('b6:0'))
             b7 = sess.run(('b7:0'))
             b8 = sess.run(('b8:0'))
-            #print(w1.shape)
-            #print(w4)
 
-            #predict_op = tf.get_collection("predict")[-1]
-            #print(type(predict_op))
 
             def encoder(x):
                 # Encoder Hidden layer with sigmoid activation #1
@@ -102,7 +100,7 @@ for i in range(1):
             decoder_input = tf.concat([encoder_op,y],1)
             decoder_op = decoder(decoder_input)
             rows=new_input.shape[0]
-            labels=np.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]*rows)
+            labels=np.array([0,0,0,0,0,0,0,0,0]*rows)
             labels=labels.reshape(rows,n_labels)
             labels[:,j]=1  #charkhondan label
 
@@ -120,12 +118,7 @@ print(test_loc)
 errors=np.array(errors)
 print(errors)
 
-# pi=errors.values()
-# pi=list(pi)
-# pri=pi/sum(pi) #16 tayi
-# pri=np.asarray(pri)
-# Li=np.array([0.1,0.4,0.9,0.9,0.4,0.3,0.4,0.5,0.5,0.4,0.3,0.2,0.1,0.1,0.1,0.1])
-# l_hat=np.dot(pri,Li)
+
 
 
 sorted_errors=sorted(errors)
@@ -148,7 +141,7 @@ print('3 best candidate locations:')
 print(true_keys)
 
 print('\n')
-er=compute_error_metric(true_keys[0],true_keys[1],test_loc,ers[0],ers[1])
+er=compute_error_metric(true_keys[0],true_keys[1],param,ers[0],ers[1])
 print('Error is ' + str(er) +'  meters !')
 print('Took : ' + str(np.sum(times)))
 

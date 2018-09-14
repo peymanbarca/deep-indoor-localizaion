@@ -5,7 +5,10 @@ import os
 import time
 
 
-test_loc=1
+random_point=list(np.array([2,5,8,10,14,17]))
+param=6
+test_loc=random_point[param-1]
+print(test_loc)
 csi=get_test_csi(test_loc) # 10*90
 csi=np.squeeze(csi)
 
@@ -22,12 +25,13 @@ ers=[]
 times=[]
 
 # Applying encode and decode over test set
-for k in range(1,17):  # give to all trained network for each point ---> DeepFi
+for k in range(1,6):  # give to all trained network for each point ---> DeepFi
     X = tf.placeholder("float", [None, n_input])
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
-        saver1 = tf.train.import_meta_graph('model/Test'+str(test_loc)+'/'+str(k)+'/trained_variables'+str(test_loc)+str(k)+'.ckpt.meta')
-        saver1.restore(sess, tf.train.latest_checkpoint('model/Test'+str(test_loc)+'/'+str(k)+'/'))
+        saver1 = tf.train.import_meta_graph('model/Test'+str(param)+'/'+str(k)+
+                                            '/trained_variables'+str(param)+str(k)+'.ckpt.meta')
+        saver1.restore(sess, tf.train.latest_checkpoint('model/Test'+str(param)+'/'+str(k)+'/'))
         st=time.time()
         w1=sess.run('w1:0')     #90*30  inha trian shode va fix hastand
         w2 = sess.run('w2:0')   #30*20
@@ -121,7 +125,7 @@ print('3 best candidate locations:')
 print(true_keys)
 
 print('\n')
-er=compute_error_metric(true_keys[0],true_keys[1],true_keys[2],test_loc,ers[0],ers[1],ers[2])
+er=compute_error_metric(true_keys[0],true_keys[1],param,ers[0],ers[1])
 print('Error is ' + str(er) +'  meters !')
 print('Took : ' + str(np.sum(times)))
 

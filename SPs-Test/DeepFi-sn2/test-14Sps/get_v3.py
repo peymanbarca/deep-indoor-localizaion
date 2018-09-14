@@ -8,35 +8,35 @@ import os
 
 
 
-def get_csi(selected_csi):
+def get_csi(selected_csi,random_point):
     csi_total = []
     selected_csi=[selected_csi]
-    for i in range(17):
+    for i in random_point:
         if i in selected_csi:
             continue
         else:
             files = (glob.glob(os.getcwd() + "/csi_data/LOC" + str(i+1) +"/*.mat"))
-            #print(len(files))
+
             for j in range(15): #read 30 packet from each location
                 mat = scipy.io.loadmat(files[j])
-                #print(mat.keys() ,"\n **********")
+
 
                 keys_to_select = ['csi']
                 csi_list = [mat[k] for k in mat.keys() \
                                    if k in keys_to_select]
                 csi = np.asarray(csi_list)
-                # print(files[j])
+
                 csi=csi[0,0,:,:]
                 csi=np.abs(csi)
-                #print(csi)
+
 
                 csi_vector=np.reshape(csi,(1,90))
                 csi_vec_normalize=csi_vector/(np.max(csi_vector))
-                #print(csi_vector.shape)
                 csi_total.append(csi_vec_normalize)
 
     csi_total=np.array(csi_total)
-    print(csi_total.shape) #[16*15  90]
+
+    print(csi_total.shape)
 
     return csi_total
 
@@ -46,9 +46,9 @@ def get_test_csi(selected_csi):
 
     for i in selected_csi:
         files2 = (glob.glob(os.getcwd() + "/csi_data/LOC" + str(i) + "/*.mat"))
-        # print(len(files))
-        for j in range(10):  # read 20 packet from each location
-            mat = scipy.io.loadmat(files2[j])
+
+        for j in range(5):  # read 20 packet from each location
+            mat = scipy.io.loadmat(files2[j+15])
             # print(mat.keys() ,"\n **********")
 
             keys_to_select = ['csi']
@@ -58,15 +58,15 @@ def get_test_csi(selected_csi):
 
             csi2 = csi2[0, 0, :, :]
             csi2 = np.abs(csi2)
-            # print(csi)
+
 
             csi_vector2 = np.reshape(csi2, (1, 90))
             csi_vec_normalize2 = csi_vector2 / (np.max(csi_vector2))
-            # print(csi_vector.shape)
+
             csi__test_total.append(csi_vec_normalize2)
 
     csi__test_total = np.array(csi__test_total)
-    print(csi__test_total.shape)  #20*90
+    print(csi__test_total.shape)
 
     return csi__test_total
 

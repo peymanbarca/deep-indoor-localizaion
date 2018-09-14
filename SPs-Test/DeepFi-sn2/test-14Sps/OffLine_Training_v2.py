@@ -8,13 +8,7 @@ import matplotlib.pyplot as plt
 from get_v3 import get_csi
 import os
 
-#csi=get_csi() #380*1*90
-#csi=np.squeeze(csi) #380*90   20 packet from each of 19 Location
 
-#print(csi)
-# Import MNIST data
-# from tensorflow.examples.tutorials.mnist import input_data
-# mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
 
 # Parameters
 learning_rate = 0.01
@@ -24,11 +18,6 @@ display_step = 50
 #
 
 
-# x1,y1=mnist.train.next_batch(batch_size)
-# x1=np.array(x1)
-# print(x1.shape)
-# y1=np.array(y1)
-# print(y1.shape)
 
 # Network Parameters
 n_hidden_1 = 30 # 1st layer num features
@@ -39,14 +28,19 @@ n_input = 90
 
 
 
+
+
 if os.path.isdir(os.getcwd()+'/model'):
         shutil.rmtree(os.getcwd()+'/model')
 os.mkdir(os.getcwd()+'/model')
-for test_i in range(1,18):   #we must create a sesession for each of loc
+for test_i in range(1,15):   #we must create a session for each of loc
+    random_point = list(np.array([1,2,4, 5,6, 7,8,9, 10,12, 14,15,16, 17]) - 1)
     os.mkdir(os.getcwd()+'/model/Test'+str(test_i))
-    csi = np.squeeze(np.array(get_csi(test_i)))
+    csi = np.squeeze(np.array(get_csi(random_point[test_i-1],random_point)))
     # create and train a graph for each point
-    for k in range(16): # for each test we have 16 train point in sn2
+
+    random_point.pop(test_i-1)
+    for k in range(len(random_point)):
         os.mkdir(os.getcwd() + '/model/Test' + str(test_i)+'/'+str(k+1))
         # tf Graph input (only pictures)
         X = tf.placeholder("float", [None, n_input])
@@ -128,7 +122,7 @@ for test_i in range(1,18):   #we must create a sesession for each of loc
         init = tf.global_variables_initializer()
 
         saver = tf.train.Saver()
-        x=csi[k*15:(k+1)*15,:]
+        x=csi[k*20:(k+1)*20,:]
         print(np.array(x).shape)
         # Launch the graph
         with tf.Session() as sess:

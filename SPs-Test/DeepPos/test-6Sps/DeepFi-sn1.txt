@@ -1,0 +1,14 @@
+Senario 1 --> Deep Fi
+Test points:               Results(Best 3 Prediction points):         error(3)(meters):          error(2)(meters):  
+	2								 							      						    2.316    0.57s
+	5																   					        0.473   0.721s
+	
+	8																					        0.496    0.507s
+	10																					        1.074	0.480s
+	
+	14																						     0.820    0.975s
+	18																						     1.974    0.482s
+	
+
+
+																	mean_error=1.98 (m)				    1.87(m)
